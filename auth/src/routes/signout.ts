@@ -1,10 +1,12 @@
 import express from 'express';
 import { json } from 'body-parser';
+import jwt from 'jsonwebtoken'
 
 const router = express.Router();
 
 router.post("/api/users/signout", (req, res) => {
-  res.send("signout");
+  req.session = null;
+  res.send({});
 });
 
 

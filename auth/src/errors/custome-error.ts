@@ -10,7 +10,4 @@ export abstract class CustomeError extends Error {
   }
   abstract serializeErrors(): { message: string; field?: string }[]
 
-
-
-
 }

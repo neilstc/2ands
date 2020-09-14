@@ -10,13 +10,13 @@ import { CustomeError } from './custome-error';
 // }
 
 
-export class RequestValidaionError extends CustomeError {    //implements statues error
+export class RequestValidationError extends CustomeError {    //implements statues error
   statusCode: number = 400;
   constructor(public errors: ValidationError[]) {
     super("invalid request parameters");
 
     //only because we are extending  builf in class 
-    Object.setPrototypeOf(this, RequestValidaionError.prototype);
+    Object.setPrototypeOf(this, RequestValidationError.prototype);
   }
 
   // adding the specific detalis to the validation error

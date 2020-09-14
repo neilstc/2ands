@@ -1,13 +1,48 @@
-import express from 'express';
-import { json } from 'body-parser';
-
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
+import mongoose from 'mongoose';
+import { User } from '../models/user';
+import { Password } from '../services/password';
+import { BadRequestError } from '../errors/bad-request-error';
+import { ValidateRequest } from '../middleware/validate-request';
+import jwt from 'jsonwebtoken';
 const router = express.Router();
-//router.use(json());
-router.post("/api/users/signin", (req, res) => {
-  // const { email, password } = req.body();
+router.post("/api/users/signin",
+  [
+    body('email').isEmail()
+      .withMessage("Invalid Email"),
+    body('password')
+      .trim()
+      .notEmpty()
+      .withMessage("Incorrect Password")
+  ],
+  ValidateRequest,
 
-  res.send("hello signin");
-});
+  async (req: Request, res: Response) => {
+
+    const { email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      throw new BadRequestError("Login  Failed");
+    } else {
+      const passwordMatch = Password.compare(existingUser.password, password);
+      if (!passwordMatch) {
+        throw new BadRequestError("user or password incorrect");
+      } else {
+        const userJwt = jwt.sign({
+          id: existingUser.id,
+          email: existingUser.email,
+        },
+          process.env.JWT_KEY!
+        );
+        req.session = {
+          jwt: userJwt
+        };
+        res.status(201).send(existingUser);
+      }
+    }
+  });
 
 
 export { router as signinRouter };
