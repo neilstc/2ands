@@ -2,7 +2,7 @@ import { CustomeError } from "./custome-error";
 
 
 export class BadRequestError extends CustomeError {
-  statusCode = 404;
+  statusCode = 400;
 
   constructor(public message: string) {
     super(message);
