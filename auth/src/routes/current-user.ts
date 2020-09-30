@@ -1,7 +1,7 @@
 import express from 'express';
 
 
-import { currentUser } from '../middleware/current-user';
+import { currentUser } from '@nmgmz/common';
 //import { requireAuth } from '../middleware/required-auth';
 const router = express.Router();
 

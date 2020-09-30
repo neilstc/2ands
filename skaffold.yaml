@@ -16,3 +16,19 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: neilmichaeli/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
+    - image: neilmichaeli/games
+      context: games
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .

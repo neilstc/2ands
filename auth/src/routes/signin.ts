@@ -3,8 +3,7 @@ import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import { User } from '../models/user';
 import { Password } from '../services/password';
-import { BadRequestError } from '../errors/bad-request-error';
-import { ValidateRequest } from '../middleware/validate-request';
+import { BadRequestError, ValidateRequest } from '@nmgmz/common';
 import jwt from 'jsonwebtoken';
 const router = express.Router();
 router.post("/api/users/signin",
